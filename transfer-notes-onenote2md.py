@@ -77,7 +77,7 @@ def split_md(note_to_be_splited, new_notes_folder):
                 if count != 0: # 排除第一次经过，处理后续一级标题前的那个二级标题
                     with open(separate_note,'a', encoding='utf-8') as f:
                         f.write(tmp_note_text)
-                tmp_folder_name = line.split(' ')[1].replace('\n', '') # 提取一级标题作为文件夹名
+                tmp_folder_name = line[2:].replace('\n', '') # 提取一级标题作为文件夹名
                 tmp_folder = os.path.join(new_notes_folder, tmp_folder_name)
                 shutil.rmtree(tmp_folder, ignore_errors=True) # 清空目标文件夹，包括文件夹本身
                 if not os.path.exists(tmp_folder): os.makedirs(tmp_folder)
@@ -86,7 +86,7 @@ def split_md(note_to_be_splited, new_notes_folder):
                     with open(separate_note,'a', encoding='utf-8') as f:
                         f.write(tmp_note_text)
                 count += 1
-                separate_note_name = line.split(' ')[1].replace('\n', '') # 提取二级标题为md文件名
+                separate_note_name = line[3:].replace('\n', '') # 提取二级标题为md文件名
                 separate_note = os.path.join(tmp_folder, separate_note_name + '.md')
                 tmp_note_text = '# ' + separate_note_name + '\n' # 二级标题名称作为md开头
             elif p3.search(line):
