@@ -69,20 +69,16 @@ def split_md(note_to_be_splited, new_notes_folder):
     p3 = re.compile(r'.', re.DOTALL) # 匹配正文和换行 匹配所有内容
 
     # 按照分级标题分割文件，一级标题为文件夹，二级标题段落为该文件夹下的单独md文件
-    # 每个二级标题段落后面有三种可能：下个一级标题，下个二级标题，文件结尾
     with open(note_to_be_splited,'r',encoding='utf-8') as f:
         count = 0
         for line in f: 
             if p1.search(line):
-                if count != 0: # 排除第一次经过，处理后续一级标题前的那个二级标题
-                    with open(separate_note,'a', encoding='utf-8') as f:
-                        f.write(tmp_note_text)
                 tmp_folder_name = line[2:].replace('\n', '') # 提取一级标题作为文件夹名
                 tmp_folder = os.path.join(new_notes_folder, tmp_folder_name)
                 shutil.rmtree(tmp_folder, ignore_errors=True) # 清空目标文件夹，包括文件夹本身
                 if not os.path.exists(tmp_folder): os.makedirs(tmp_folder)
             elif p2.search(line):
-                if count != 0: # 排除第一次经过
+                if count != 0: # 排除第一次经过，保存上一个二级标题下的内容
                     with open(separate_note,'a', encoding='utf-8') as f:
                         f.write(tmp_note_text)
                 count += 1
