@@ -5,6 +5,22 @@
 import re
 from datetime import datetime
 
+def links_on2ob(note):
+    '''
+    将text里面的Onenote内链替换为Obsidian内链，比如
+    from: [千钧一发](onenote:观影笔记.one#千钧一发&.........)
+    to  : [[千钧一发]]
+    '''
+    with open(note,'r',encoding='utf-8') as f:
+        text = f.read()
+    
+    text = replace_links_on2ob(text, new_text='')
+
+    with open(note,'w+', encoding='utf-8') as f:
+        f.write(text)
+    return note
+
+
 def replace_links_on2ob(text, new_text):
     '''
     将text里面的Onenote内链替换为Obsidian内链，比如
